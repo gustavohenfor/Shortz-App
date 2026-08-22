@@ -1,12 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const likeController = require("./likeController");
-const authMiddleware = require("../../middlewares/auth");
+const { isAuthenticated } = require("../../middlewares/auth");
+const asyncHandler = require("../../middlewares/asyncHandler");
+
 
 // Rota para alternar o like (curtir/descurtir)
-router.post("/video/:videoId/toggle-like", authMiddleware, likeController.toggleLike);
+router.post("/video/:videoId/toggle-like", isAuthenticated, asyncHandler(likeController.toggleLike));
 
 // Rota para verificar o status do like de um vídeo para o usuário logado
-router.get("/video/:videoId/like-status", authMiddleware, likeController.checkLikeStatus);
+router.get("/video/:videoId/like-status", isAuthenticated, asyncHandler(likeController.checkLikeStatus));
+
+// Rota para a página de vídeos curtidos [ADICIONAR]
+router.get("/liked-videos", isAuthenticated, likeController.renderLikedVideos);
+
 
 module.exports = router;

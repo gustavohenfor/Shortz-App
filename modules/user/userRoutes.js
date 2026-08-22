@@ -1,54 +1,26 @@
 var express = require("express");
 var router = express.Router();
 const userController = require("./userController");
-const authMiddleware = require("../../middlewares/auth");
-const upload = require("../../middlewares/profileMulter"); // Modificar de multer para profileMulter
-const videoController = require("../video/videoController"); // Importa o controller Video
+const { registerValidator, loginValidator, profileUpdateValidator } = require("./userValidator");
+const { isAuthenticated } = require("../../middlewares/auth");   // const authMiddleware = require("../../middlewares/auth");
+const profileMulter = require("../../middlewares/profileMulter"); // const upload = require("../../middlewares/profileMulter");
+const asyncHandler = require("../../middlewares/asyncHandler"); 
 
-// Rota para exibir o formulário de cadastro
-router.get("/register", (req, res) => {
-    res.render("register", { title: "Criar Conta" });
-});
 
-// Rota que processa o formulário de cadastro
-router.post("/register", userController.register);
 
-// Rota para exibir o formulário de login
-router.get("/login", (req, res) => {
-    res.render("login", { title: "Entrar" });
-});
+router.get("/register", userController.renderRegisterForm);
+router.post("/register", registerValidator, asyncHandler(userController.register));
 
-// Rota para processar o formulário de login
-router.post("/login", userController.login);
-
-// Rota para processar o logout
+router.get("/login", userController.renderLoginForm);
+router.post("/login", loginValidator, asyncHandler(userController.login));
 router.get("/logout", userController.logout);
 
-// Rota para exibir o feed de vídeos (protegida por autenticação)
-router.get("/feed", authMiddleware, async (req, res) => {
-    try {
-        // Busca todos os vídeos, incluindo as informações do usuário que os publicou
-        const videos = await videoController.getAllVideos();
-        res.render("feed", { title: "Feed | Shortz-App", videos });
-    } catch (error) {
-        console.error("Erro ao carregar o feed:", error);
-        req.flash("error", "Erro ao carregar o feed de vídeos.");
-    }
-});
+router.get("/profile/edit", isAuthenticated, asyncHandler(userController.renderEditProfileForm));
+router.post("/profile/edit", isAuthenticated, profileMulter.single("profilePicture"), profileUpdateValidator, asyncHandler(userController.updateProfile));
+router.get("/profile/:username", isAuthenticated, asyncHandler(userController.renderPublicProfile));
 
-// Rota para exibir o perfil do usuário (protegida por autenticação)
-router.get("/profile/edit", authMiddleware, async (req, res) => {
-    // O objeto 'user' já está disponível via res.locals.user
-    res.render("edit-profile", { title: "Editar Perfil | Shortz-App" });
-});
+router.get("/feed", isAuthenticated, asyncHandler(userController.renderFeed));
 
-// Rota de atualização (Protegida + Upload de 1 arquivo chamado 'profilePicture')
-router.post("/profile/edit", authMiddleware, upload.single("profilePicture"), userController.updateProfile);
 
-// Rota de atualização (Protegida + Upload de 1 arquivo chamado \'profilePicture\')
-router.post("/profile/edit", authMiddleware, upload.single("profilePicture"), userController.updateProfile);
-
-// [ADICIONAR] Rota para exibir o perfil público de um usuário
-router.get("/profile/:username", userController.renderPublicProfile);
 
 module.exports = router;
