@@ -43,35 +43,42 @@
             <div class="d-flex align-items-center gap-3 mb-4">
                 <button id="likeButton" class="btn btn-light btn-sm rounded-pill px-3 d-flex align-items-center">
                     <i class="bi <%= isLiked ? 'bi-heart-fill text-danger' : 'bi-heart' %> me-2"></i>
-                    <span id="likesCount"><%= video.likesCount %></span>
+                    <span id="likesCount">
+                        <%= video.likesCount %>
+                    </span>
                 </button>
-                <span class="text-muted"><%= video.commentsCount %> Comentários</span>
+                <span class="text-muted">
+                    <%= video.commentsCount %> Comentários
+                </span>
             </div>
 
             <!-- Seção de Comentários -->
             <div class="comments-section">
-                <h5 class="mb-3">Comentários (<span id="commentsCountDisplay"><%= video.commentsCount %></span>)</h5>
+                <h5 class="mb-3">Comentários (<span id="commentsCountDisplay">
+                        <%= video.commentsCount %>
+                    </span>)</h5>
                 <% if (user) { %>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h6 class="card-title">Adicionar um comentário</h6>
-                        <form id="commentForm">
-                            <div class="mb-3">
-                                <textarea class="form-control" id="commentContent" rows="3" placeholder="Escreva seu comentário aqui..."></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-sm">Comentar</button>
-                        </form>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title">Adicionar um comentário</h6>
+                            <form id="commentForm">
+                                <div class="mb-3">
+                                    <textarea class="form-control" id="commentContent" rows="3"
+                                        placeholder="Escreva seu comentário aqui..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-sm">Comentar</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
-                <% } else { %>
-                <div class="alert alert-info text-center" role="alert">
-                    Faça <a href="/login">login</a> para comentar.
-                </div>
-                <% } %>
+                    <% } else { %>
+                        <div class="alert alert-info text-center" role="alert">
+                            Faça <a href="/login">login</a> para comentar.
+                        </div>
+                        <% } %>
 
-                <div id="commentsList" class="list-group list-group-flush">
-                    <!-- Comentários serão carregados aqui via AJAX -->
-                </div>
+                            <div id="commentsList" class="list-group list-group-flush">
+                                <!-- Comentários serão carregados aqui via AJAX -->
+                            </div>
             </div>
         </div>
 
@@ -121,13 +128,14 @@
                         data.comments.forEach(comment => {
                             const commentElement = `
                                 <div class="list-group-item d-flex align-items-start mb-2">
-                                    <img src="${comment.User.profilePicture ? 
-                                        '/uploads/profiles/' + comment.User.profilePicture : 
-                                        '/images/default-profile.png'}" 
+                                    <img src="${comment.User.profilePicture ?
+                                    '/uploads/profiles/' + comment.User.profilePicture :
+                                    '/images/default-profile.png'}" 
                                         alt="${comment.User.username}" class="rounded-circle me-3" width="40" height="40">
                                     <div>
                                         <h6 class="mb-0">${comment.User.fullName} <small class="text-muted">@${comment.User.username}</small></h6>
                                         <p class="mb-1">${comment.content}</p>
+                                        
                                         <small class="text-muted">${new Date(comment.createdAt).toLocaleString()}</small>
                                     </div>
                                 </div>
@@ -135,7 +143,7 @@
                             commentsList.insertAdjacentHTML("beforeend", commentElement);
                         });
                     } else {
-                        commentsList.innerHTML = 
+                        commentsList.innerHTML =
                             `<div class="alert alert-info text-center" role="alert">
                                 Nenhum comentário ainda. Seja o primeiro a comentar!
                             </div>`;

@@ -90,6 +90,7 @@ exports.streamVideo = async (req, res) => {
     }
 };
 
+
 exports.getAllVideos = async () => {
     const videos = await Video.findAll({
         include: [{

@@ -9,4 +9,11 @@ router.post("/video/:videoId/comment", authMiddleware, commentController.addComm
 // Rota para buscar todos os comentários de um vídeo
 router.get("/video/:videoId/comments", authMiddleware, commentController.getComments);
 
+router.post(
+  "/video/:videoId/comment/:commentId",
+  authMiddleware,
+  commentController.editComment
+);
+
 module.exports = router;
+
