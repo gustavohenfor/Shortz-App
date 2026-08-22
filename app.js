@@ -10,7 +10,6 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var userRoutes = require("./modules/user/userRoutes"); 
 var videoRoutes = require("./modules/video/videoRoutes");
-
 var app = express();
 var expressLayouts = require("express-ejs-layouts");
 
@@ -35,7 +34,8 @@ app.use((req, res, next) => {
   res.locals.messages = req.flash();
   res.locals.user = req.session.user || null;
   next();
-});
+})
+;
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
