@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest' // Indica que é uma requisição AJAX
+                        'X-Requested-With': 'XMLHttpRequest' // Indica que é uma requisição AJA
                     }
                 });
                 const data = await response.json();

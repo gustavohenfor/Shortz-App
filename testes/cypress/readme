@@ -1,0 +1,16 @@
+# Execução dos Testes
+
+1. Instalar as dependências:
+   npm install
+
+2. Iniciar a aplicação:
+   npm start
+
+3. Configurar um usuário válido no arquivo:
+   cypress/fixtures/usuario.json
+
+4. Executar os testes:
+   npx cypress run
+
+Ou abrir a interface gráfica:
+npx cypress open
