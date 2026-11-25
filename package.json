@@ -6,7 +6,7 @@
   "start": "node ./bin/www",
   "dev": "nodemon ./bin/www",
   "test": "node --test testes/cypress/playlistValidator.test.js"
-},
+
 },
   },
   "dependencies": {
