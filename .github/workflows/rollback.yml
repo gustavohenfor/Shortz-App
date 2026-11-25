@@ -1,0 +1,40 @@
+
+name: Rollback
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Tag da versão para restaurar"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  rollback:
+    name: Simular rollback
+    runs-on: ubuntu-latest
+
+    environment: production
+
+    steps:
+      - name: Checkout da versão selecionada
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.release_tag }}
+          fetch-depth: 0
+
+      - name: Validar versão
+        run: |
+          echo "Versão selecionada: ${{ inputs.release_tag }}"
+          git describe --tags --exact-match
+          echo "Commit restaurado:"
+          git log -1 --oneline
+
+      - name: Registrar simulação
+        run: |
+          echo "Rollback simulado com sucesso."
+          echo "Versão selecionada: ${{ inputs.release_tag }}"
+          echo "Ambiente: production"
