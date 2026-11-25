@@ -2,7 +2,7 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { validationResult } = require("express-validator");
-const playlistValidator = require("../../../../modules/playlist/playlistValidator");
+const playlistValidator = require("../../modules/playlist/playlistValidator");
 
 async function validateTitle(title) {
     const req = {
