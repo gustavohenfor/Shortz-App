@@ -2,9 +2,11 @@
   "name": "shortz-app",
   "version": "0.0.0",
   "private": true,
-  "scripts": {
-    "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+ "scripts": {
+  "start": "node ./bin/www",
+  "dev": "nodemon ./bin/www",
+  "test": "node --test testes/playlistValidator.test.js"
+},
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
