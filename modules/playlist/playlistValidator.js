@@ -1,6 +1,7 @@
 
 const { body } = require("express-validator");
 
+
 exports.createPlaylist = [
     body("title")
         .trim()
